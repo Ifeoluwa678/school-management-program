@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
+        <h1>Admin Control Panel</h1>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-danger">Logout</button>
+        </form>
+    </div>
+
+    <div th:if="${param.success}" class="alert alert-success">
+        Successfully created: <strong th:text="${param.success}"></strong>!
+    </div>
+
+    <div class="grid">
+        <!-- 1. Create ClassRoom -->
+        <div class="card">
+            <h3>1. Create ClassRoom</h3>
+            <form th:action="@{/admin/classrooms/create}" method="post">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Class Name (e.g. JSS 1)" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="arm" placeholder="Arm (e.g. A)" required />
+                </div>
+                <div class="form-group">
+                    <input type="number" name="formTeacherId" placeholder="Form Teacher ID (Optional)" />
+                </div>
+                <button type="submit" class="btn-full">Add ClassRoom</button>
+            </form>
+        </div>
+
+        <!-- 2. Create Subject -->
+        <div class="card">
+            <h3>2. Create Subject</h3>
+            <form th:action="@{/admin/subjects/create}" method="post">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Subject Name (e.g. Mathematics)" required />
+                </div>
+                <div class="form-group">
+                    <input type="number" name="teacherId" placeholder="Teacher ID (Optional)" />
+                </div>
+                <button type="submit" class="btn-full">Add Subject</button>
+            </form>
+        </div>
+
+        <!-- 3. Register Teacher -->
+        <div class="card">
+            <h3>3. Register Teacher</h3>
+            <form th:action="@{/admin/teachers/register}" method="post">
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email (Login Username)" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="firstName" placeholder="First Name" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="surname" placeholder="Surname" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="qualifications" placeholder="Qualifications (e.g. B.Sc)" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="phone" placeholder="Phone Number" required />
+                </div>
+                <button type="submit" class="btn-full">Register Teacher</button>
+            </form>
+        </div>
+
+        <!-- 4. Register Student -->
+        <div class="card">
+            <h3>4. Register Student</h3>
+            <form th:action="@{/admin/students/register}" method="post">
+                <div class="form-group">
+                    <input type="text" name="admissionNo" placeholder="Admission No (Login Username)" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="firstName" placeholder="First Name" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="surname" placeholder="Surname" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="secondName" placeholder="Middle Name" />
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" name="dob" required />
+                </div>
+                <div class="form-group">
+                    <select name="classRoomId" required>
+                        <option value="" disabled selected>Select ClassRoom</option>
+                        <option th:each="room : ${classRooms}"
+                                th:value="${room.id}"
+                                th:text="${room.name + ' ' + room.arm}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-full">Register Student</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Overview Lists -->
+    <div class="grid">
+        <div class="card">
+            <h3>Existing ClassRooms</h3>
+            <ul class="data-list">
+                <li th:each="room : ${classRooms}" th:text="${room.id + ' - ' + room.name + ' ' + room.arm}"></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Existing Subjects</h3>
+            <ul class="data-list">
+                <li th:each="sub : ${subjects}" th:text="${sub.id + ' - ' + sub.name}"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

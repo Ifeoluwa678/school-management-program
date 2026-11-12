@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
+        <h1>Teacher Portal</h1>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-danger">Logout</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Welcome, <span th:text="${username}">Teacher</span>!</h2>
+        <p>Your assigned classes and subjects will appear here.</p>
+    </div>
+</div>
+</body>
+</html>
